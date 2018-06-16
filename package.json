@@ -1,0 +1,23 @@
+{
+  "name": "noise",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@vkontakte/icons": "^1.0.2",
+    "@vkontakte/vkui": "^2.0.0",
+    "@vkontakte/vkui-connect": "^1.0.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4",
+    "react-svg-icons": "^0.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "react-svg-icons": {
+    "assetPath": "public/icons"
+  }
+}

@@ -1,0 +1,37 @@
+.logo {
+  height: 150px;
+  background-image: url("/logo.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  display: flex;
+}
+
+.logo .logo__shuffle {
+  align-self: flex-end;
+}
+
+.icon {
+  height: 32px;
+  width: 32px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.icon__wind {
+  background-image: url("/icons/wind.png");
+}
+
+.icon__rain {
+  background-image: url("/icons/rain.png");
+}
+
+.icon__fire {
+  background-image: url("/icons/fire.png");
+}
+
+.icon__birds {
+  background-image: url("/icons/birds.png");
+}
