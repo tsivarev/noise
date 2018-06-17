@@ -8,139 +8,88 @@ import {IconWind} from "./components/icons/wind/IconWind";
 import {IconBirds} from "./components/icons/birds/IconBirds";
 import {IconRain} from "./components/icons/rain/IconRain";
 import {IconFire} from "./components/icons/fire/IconFire";
+import {SoundEffectView} from "./components/SoundEffectView";
+import {IconWaves} from "./components/icons/waves/IconWaves";
 
 class App extends Component {
 
   constructor(props) {
     super(props);
 
-    this.maxValue = 100;
-    this.minValue = 0;
-    this.defaultValue = 0;
+    this.state = App.getInitState();
 
-    this.types = {
-      fire: 'fire',
-      rain: 'rain',
-      wind: 'wind',
-      birds: 'birds',
-    };
-
-    this.audios = {
-      fire: App.initAudio(process.env.PUBLIC_URL + '/samples/fire.mp3'),
-      rain: App.initAudio(process.env.PUBLIC_URL + '/samples/rain.mp3'),
-      wind: App.initAudio(process.env.PUBLIC_URL + '/samples/wind.mp3'),
-      birds: App.initAudio(process.env.PUBLIC_URL + '/samples/birds.mp3'),
-    };
-
-    this.state = {
-      fire: this.defaultValue,
-      rain: this.defaultValue,
-      wind: this.defaultValue,
-      birds: this.defaultValue,
-    };
+    this.shuffle = this.shuffle.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  static initAudio(url) {
-    let audio = new Audio(url);
-    audio.addEventListener('ended', function() {
-      this.play();
-    }, false);
-
-    return audio;
+  static getInitState() {
+    return {
+      fire: 0,
+      rain: 0,
+      wind: 0,
+      birds: 0,
+      waves: 0,
+    };
   }
 
   shuffle() {
-    let newState = {
-      fire: this.defaultValue,
-      rain: this.defaultValue,
-      wind: this.defaultValue,
-      birds: this.defaultValue
-    };
+    let newState = App.getInitState();
 
-    this.audios.fire.pause();
-    this.audios.rain.pause();
-    this.audios.wind.pause();
-    this.audios.birds.pause();
-
-    let rand = Math.floor(Math.random() * 3);
+    let rand = Math.floor(Math.random() * 5);
 
     switch (rand) {
       case 0:
         newState.birds = 50;
         newState.rain = 50;
-        this.audios.birds.volume = 0.5;
-        this.audios.rain.volume = 0.5;
-        this.audios.birds.play();
-        this.audios.rain.play();
         break;
 
       case 1:
         newState.fire = 50;
         newState.rain = 50;
-        this.audios.fire.volume = 0.5;
-        this.audios.rain.volume = 0.5;
-        this.audios.fire.play();
-        this.audios.rain.play();
         break;
 
       case 2:
         newState.wind = 50;
         newState.fire = 50;
-        this.audios.fire.volume = 0.5;
-        this.audios.wind.volume = 0.5;
-        this.audios.fire.play();
-        this.audios.wind.play();
+        break;
+
+      case 3:
+        newState.wind = 25;
+        newState.waves = 50;
+        break;
+
+      case 4:
+        newState.birds = 25;
+        newState.waves = 50;
         break;
     }
 
     this.setState(newState);
   }
 
-
-  onChangeVolume(type, newValue) {
-    let newVolume = newValue / this.maxValue;
-
-    let oldValue = 0;
-    let audio = null;
-
-    switch (type) {
-      case this.types.fire:
-        audio = this.audios.fire;
-        oldValue = this.state.fire;
-        this.setState({fire: newValue});
+  handleChange(name, value) {
+    switch (name) {
+      case 'fire':
+        this.setState({fire: value});
         break;
-      case this.types.wind:
-        audio = this.audios.wind;
-        oldValue = this.state.wind;
-        this.setState({wind: newValue});
+      case 'rain':
+        this.setState({rain: value});
         break;
-      case this.types.rain:
-        audio = this.audios.rain;
-        oldValue = this.state.rain;
-        this.setState({rain: newValue});
+      case 'wind':
+        this.setState({wind: value});
         break;
-      case this.types.birds:
-        audio = this.audios.birds;
-        oldValue = this.state.birds;
-        this.setState({birds: newValue});
+      case 'birds':
+        this.setState({birds: value});
+        break;
+      case 'waves':
+        this.setState({waves: value});
         break;
       default:
-        return false;
+        console.log('unknown name', name);
     }
-
-    if (oldValue > 0 && newValue === 0) {
-      audio.pause();
-    } else if (oldValue === 0 && newValue > 0) {
-      audio.play();
-    }
-
-    audio.volume = newVolume;
-
-    return true;
   }
 
   render() {
-
     const LogoStyle = {backgroundImage: `url(${logo})`};
 
     return (
@@ -150,7 +99,7 @@ class App extends Component {
             <UI.Div className="logo" style={LogoStyle}>
               <UI.Button
                 className="logo__shuffle"
-                onClick={this.shuffle.bind(this)}
+                onClick={this.shuffle}
                 level="1"
                 before={<Icon24Shuffle/>}
                 size="xl"
@@ -160,47 +109,23 @@ class App extends Component {
               <UI.List>
                 <UI.ListItem
                   before={<IconFire size={32}/>}>
-                  <UI.Div>
-                    <UI.Slider
-                      min={this.minValue}
-                      max={this.maxValue}
-                      value={Number(this.state.fire)}
-                      onChange={value => this.onChangeVolume(this.types.fire, value)}
-                    />
-                  </UI.Div>
+                    <SoundEffectView url={process.env.PUBLIC_URL + '/samples/fire.mp3'} onChange={this.handleChange} name="fire" value={this.state.fire}/>
                 </UI.ListItem>
                 <UI.ListItem
                   before={<IconRain size={32}/>}>
-                  <UI.Div>
-                    <UI.Slider
-                      min={this.minValue}
-                      max={this.maxValue}
-                      value={Number(this.state.rain)}
-                      onChange={value => this.onChangeVolume(this.types.rain, value)}
-                    />
-                  </UI.Div>
+                  <SoundEffectView url={process.env.PUBLIC_URL + '/samples/rain.mp3'} onChange={this.handleChange} name="rain" value={this.state.rain}/>
                 </UI.ListItem>
                 <UI.ListItem
                   before={<IconWind size={32}/>}>
-                  <UI.Div>
-                    <UI.Slider
-                      min={this.minValue}
-                      max={this.maxValue}
-                      value={Number(this.state.wind)}
-                      onChange={value => this.onChangeVolume(this.types.wind, value)}
-                    />
-                  </UI.Div>
+                  <SoundEffectView url={process.env.PUBLIC_URL + '/samples/wind.mp3'} onChange={this.handleChange} name="wind" value={this.state.wind}/>
                 </UI.ListItem>
                 <UI.ListItem
                   before={<IconBirds size={32}/>}>
-                  <UI.Div>
-                    <UI.Slider
-                      min={this.minValue}
-                      max={this.maxValue}
-                      value={Number(this.state.birds)}
-                      onChange={value => this.onChangeVolume(this.types.birds, value)}
-                    />
-                  </UI.Div>
+                  <SoundEffectView url={process.env.PUBLIC_URL + '/samples/birds.mp3'} onChange={this.handleChange} name="birds" value={this.state.birds}/>
+                </UI.ListItem>
+                <UI.ListItem
+                  before={<IconWaves size={32}/>}>
+                  <SoundEffectView url={process.env.PUBLIC_URL + '/samples/waves.mp3'} onChange={this.handleChange} name="waves" value={this.state.waves}/>
                 </UI.ListItem>
               </UI.List>
             </UI.Group>
