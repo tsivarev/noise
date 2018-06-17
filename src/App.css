@@ -1,36 +1,14 @@
-.logo {
-  height: 150px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+.header {
+}
 
+.header .header__logo {
   display: flex;
+  margin: auto;
+  padding: 10px;
+  height: 150px;
 }
 
-.logo .logo__shuffle {
-  align-self: flex-end;
-}
-
-.icon {
-  height: 32px;
-  width: 32px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-.icon__wind {
-  background-image: url("/icons/wind.png");
-}
-
-.icon__rain {
-  background-image: url("/icons/rain.png");
-}
-
-.icon__fire {
-  background-image: url("/icons/fire.png");
-}
-
-.icon__birds {
-  background-image: url("/icons/birds.png");
+.header .header__shuffle {
+  display: flex;
+  margin: auto;
 }
