@@ -3,6 +3,11 @@ import * as UI from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import Icon24Shuffle from '@vkontakte/icons/dist/24/shuffle';
 import './App.css';
+import logo from './logo.jpg';
+import {IconWind} from "./components/icons/wind/IconWind";
+import {IconBirds} from "./components/icons/birds/IconBirds";
+import {IconRain} from "./components/icons/rain/IconRain";
+import {IconFire} from "./components/icons/fire/IconFire";
 
 class App extends Component {
 
@@ -21,10 +26,10 @@ class App extends Component {
     };
 
     this.audios = {
-      fire: App.initAudio('/samples/fire.mp3'),
-      rain: App.initAudio('/samples/rain.mp3'),
-      wind: App.initAudio('/samples/wind.mp3'),
-      birds: App.initAudio('/samples/birds.mp3'),
+      fire: App.initAudio(process.env.PUBLIC_URL + '/samples/fire.mp3'),
+      rain: App.initAudio(process.env.PUBLIC_URL + '/samples/rain.mp3'),
+      wind: App.initAudio(process.env.PUBLIC_URL + '/samples/wind.mp3'),
+      birds: App.initAudio(process.env.PUBLIC_URL + '/samples/birds.mp3'),
     };
 
     this.state = {
@@ -135,11 +140,14 @@ class App extends Component {
   }
 
   render() {
+
+    const LogoStyle = {backgroundImage: `url(${logo})`};
+
     return (
       <UI.Root activeView="mainView">
         <UI.View id="mainView" activePanel="progress" header={false}>
           <UI.Panel id="progress">
-            <UI.Div className="logo">
+            <UI.Div className="logo" style={LogoStyle}>
               <UI.Button
                 className="logo__shuffle"
                 onClick={this.shuffle.bind(this)}
@@ -151,7 +159,7 @@ class App extends Component {
             <UI.Group title="Звуки">
               <UI.List>
                 <UI.ListItem
-                  before={<UI.Div className="icon icon__fire"></UI.Div>}>
+                  before={<IconFire size={32}/>}>
                   <UI.Div>
                     <UI.Slider
                       min={this.minValue}
@@ -162,7 +170,7 @@ class App extends Component {
                   </UI.Div>
                 </UI.ListItem>
                 <UI.ListItem
-                  before={<UI.Div className="icon icon__rain"></UI.Div>}>
+                  before={<IconRain size={32}/>}>
                   <UI.Div>
                     <UI.Slider
                       min={this.minValue}
@@ -173,7 +181,7 @@ class App extends Component {
                   </UI.Div>
                 </UI.ListItem>
                 <UI.ListItem
-                  before={<UI.Div className="icon icon__wind"></UI.Div>}>
+                  before={<IconWind size={32}/>}>
                   <UI.Div>
                     <UI.Slider
                       min={this.minValue}
@@ -184,7 +192,7 @@ class App extends Component {
                   </UI.Div>
                 </UI.ListItem>
                 <UI.ListItem
-                  before={<UI.Div className="icon icon__birds"></UI.Div>}>
+                  before={<IconBirds size={32}/>}>
                   <UI.Div>
                     <UI.Slider
                       min={this.minValue}
