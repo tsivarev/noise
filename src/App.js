@@ -10,6 +10,7 @@ import {IconRain} from "./components/icons/rain/IconRain";
 import {IconFire} from "./components/icons/fire/IconFire";
 import {SoundEffectView} from "./components/SoundEffectView";
 import {IconWaves} from "./components/icons/waves/IconWaves";
+import {IconLeaves} from "./components/icons/leaves/IconLeaves";
 
 class App extends Component {
 
@@ -29,6 +30,7 @@ class App extends Component {
       wind: 0,
       birds: 0,
       waves: 0,
+      leaves: 0,
     };
   }
 
@@ -62,6 +64,11 @@ class App extends Component {
         newState.birds = 25;
         newState.waves = 50;
         break;
+
+      case 5:
+        newState.fair = 40;
+        newState.leaves = 25;
+        break;
     }
 
     this.setState(newState);
@@ -83,6 +90,9 @@ class App extends Component {
         break;
       case 'waves':
         this.setState({waves: value});
+        break;
+      case 'leaves':
+        this.setState({leaves: value});
         break;
       default:
         console.log('unknown name', name);
@@ -118,6 +128,11 @@ class App extends Component {
                 <UI.ListItem
                   before={<IconWind size={32}/>}>
                   <SoundEffectView url={process.env.PUBLIC_URL + '/samples/wind.mp3'} onChange={this.handleChange} name="wind" value={this.state.wind}/>
+                </UI.ListItem>
+                <UI.ListItem
+                  before={<IconLeaves size={32}/>}>
+                  <SoundEffectView url={process.env.PUBLIC_URL + '/samples/leaves.mp3'} onChange={this.handleChange}
+                                   name="leaves" value={this.state.leaves}/>
                 </UI.ListItem>
                 <UI.ListItem
                   before={<IconBirds size={32}/>}>
