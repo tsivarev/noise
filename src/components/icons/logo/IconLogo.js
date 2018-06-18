@@ -4,8 +4,8 @@ import logo from './logo.svg';
 
 export class IconLogo extends Component {
 
-  render() {
-    return (
-      <img height={this.props.height} className={this.props.className} src={logo} alt="logo"/>);
-  }
+    render() {
+        return (
+            <img height={this.props.height} className={this.props.className} src={logo} alt="logo"/>);
+    }
 }

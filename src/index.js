@@ -5,7 +5,6 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 VKConnect.send('VKWebAppInit', {});
-VKConnect.subscribe((e) => console.log(e));
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));
 registerServiceWorker();
