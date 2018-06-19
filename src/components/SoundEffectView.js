@@ -6,10 +6,13 @@ export class SoundEffectView extends Component {
     constructor(props) {
         super(props);
 
+        this.osName = UI.platform();
+
         this.maxValue = 100;
         this.minValue = 0;
 
         this.onChange = this.onChange.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount() {
@@ -21,6 +24,14 @@ export class SoundEffectView extends Component {
 
     onChange(value) {
         this.props.onChange(this.props.name, value);
+    }
+
+    toggle() {
+        if (this.props.value > 0) {
+            this.props.onChange(this.props.name, 0);
+        } else {
+            this.props.onChange(this.props.name, 70);
+        }
     }
 
     render() {
@@ -48,13 +59,18 @@ export class SoundEffectView extends Component {
         }
 
 
+        let callbackOnChange = null;
+        if (this.osName !== UI.IOS) {
+            callbackOnChange = this.onChange;
+        }
+
         return (
-            <UI.Div>
+            <UI.Div onClick={this.toggle}>
                 <UI.Slider
                     min={this.minValue}
                     max={this.maxValue}
                     value={Number(this.props.value)}
-                    onChange={this.onChange}
+                    onChange={callbackOnChange}
                 />
             </UI.Div>
         );
