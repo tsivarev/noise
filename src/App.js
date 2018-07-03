@@ -34,7 +34,7 @@ class App extends Component {
             birds: 0,
             waves: 0,
             leaves: 0,
-            activePanel: 'mainPanel'
+            activeView: 'mainView'
         };
     }
 
@@ -105,8 +105,8 @@ class App extends Component {
 
     render() {
         return (
-            <UI.Root activeView="mainView">
-                <UI.View id="mainView" activePanel={this.state.activePanel} header={false}>
+            <UI.Root activeView={this.state.activeView}>
+                <UI.View id="mainView" activePanel="mainPanel" header={false}>
                     <UI.Panel id="mainPanel">
                         <UI.Group>
                             <UI.Div className="header">
@@ -122,37 +122,44 @@ class App extends Component {
                         <UI.Group title="Звуки">
                             <UI.List>
                                 <UI.ListItem
-                                    before={<IconFire size={32}/>}>
+                                    before={<IconFire color={this.state.fire ? UI.colors.black : UI.colors.lightGray}
+                                                      size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/fire.mp3'}
                                                      onChange={this.handleChange}
                                                      name="fire" value={this.state.fire}/>
                                 </UI.ListItem>
                                 <UI.ListItem
-                                    before={<IconRain size={32}/>}>
+                                    before={<IconRain color={this.state.rain ? UI.colors.black : UI.colors.lightGray}
+                                                      size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/rain.mp3'}
                                                      onChange={this.handleChange}
                                                      name="rain" value={this.state.rain}/>
                                 </UI.ListItem>
                                 <UI.ListItem
-                                    before={<IconWind size={32}/>}>
+                                    before={<IconWind color={this.state.wind ? UI.colors.black : UI.colors.lightGray}
+                                                      size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/wind.mp3'}
                                                      onChange={this.handleChange}
                                                      name="wind" value={this.state.wind}/>
                                 </UI.ListItem>
                                 <UI.ListItem
-                                    before={<IconLeaves size={32}/>}>
+                                    before={<IconLeaves
+                                        color={this.state.leaves ? UI.colors.black : UI.colors.lightGray}
+                                        size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/leaves.mp3'}
                                                      onChange={this.handleChange}
                                                      name="leaves" value={this.state.leaves}/>
                                 </UI.ListItem>
                                 <UI.ListItem
-                                    before={<IconBirds size={32}/>}>
+                                    before={<IconBirds color={this.state.birds ? UI.colors.black : UI.colors.lightGray}
+                                                       size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/birds.mp3'}
                                                      onChange={this.handleChange}
                                                      name="birds" value={this.state.birds}/>
                                 </UI.ListItem>
                                 <UI.ListItem
-                                    before={<IconWaves size={32}/>}>
+                                    before={<IconWaves color={this.state.waves ? UI.colors.black : UI.colors.lightGray}
+                                                       size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/waves.mp3'}
                                                      onChange={this.handleChange}
                                                      name="waves" value={this.state.waves}/>
@@ -163,12 +170,9 @@ class App extends Component {
                             <UI.Link onClick={this.openCredits}>Лицензии</UI.Link>
                         </UI.Div>
                     </UI.Panel>
+                </UI.View>
+                <UI.View id="creditsView" activePanel="creditsPanel" header={false}>
                     <UI.Panel id="creditsPanel">
-                        <UI.Group>
-                            <UI.Div className="header">
-                                <IconLogo height={150} className="header__logo"/>
-                            </UI.Div>
-                        </UI.Group>
                         <UI.Group>
                             <UI.List>
                                 <UI.ListItem multiline>
@@ -189,7 +193,7 @@ class App extends Component {
     }
 
     openCredits() {
-        this.setState({activePanel: 'creditsPanel'});
+        this.setState({activeView: 'creditsView'});
         VKConnect.send('VKWebAppViewUpdateNavigationState', {canBack: true, canForward: false});
     }
 
@@ -197,7 +201,7 @@ class App extends Component {
         e = e.detail;
         if (e['type'] === 'VKWebAppGoBack') {
             VKConnect.send('VKWebAppViewUpdateNavigationState', {canBack: false, canForward: false});
-            this.setState({activePanel: 'mainPanel'});
+            this.setState({activeView: 'mainView'});
         }
     }
 }

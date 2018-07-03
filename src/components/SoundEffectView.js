@@ -58,21 +58,25 @@ export class SoundEffectView extends Component {
             this.audio.volume = this.props.value / this.maxValue;
         }
 
-
-        let callbackOnChange = null;
-        if (this.osName !== UI.IOS) {
-            callbackOnChange = this.onChange;
-        }
-
-        return (
+        if (this.osName === UI.IOS) {
+            return (
+                <UI.Div onClick={this.toggle}>
+                    <UI.Progress
+                        value={this.props.value ? 70 : 0}
+                    />
+                </UI.Div>
+            );
+        } else {
+            return (
             <UI.Div onClick={this.toggle}>
                 <UI.Slider
                     min={this.minValue}
                     max={this.maxValue}
                     value={Number(this.props.value)}
-                    onChange={callbackOnChange}
+                    onChange={this.onChange}
                 />
             </UI.Div>
-        );
+            );
+        }
     }
 }
