@@ -167,22 +167,22 @@ class App extends Component {
                             </UI.List>
                         </UI.Group>
                         <UI.Div className="footer">
-                            <UI.Link onClick={this.openCredits}>Лицензии</UI.Link>
+                            <UI.Button type="cell" align="center" onClick={this.openCredits}>О программе</UI.Button>
                         </UI.Div>
                     </UI.Panel>
                 </UI.View>
-                <UI.View id="creditsView" activePanel="creditsPanel" header={false}>
+                <UI.View id="creditsView" activePanel="creditsPanel">
                     <UI.Panel id="creditsPanel">
-                        <UI.Group>
+                        <UI.PanelHeader>О программе</UI.PanelHeader>
+                        <UI.Group title="Лицензии">
                             <UI.List>
                                 <UI.ListItem multiline>
-                                    Аконки – <a href="http://www.freepik.com" title="Freepik">Freepik</a>. Лицензия <a
+                                    Иконки – <a href="http://www.freepik.com" title="Freepik">Freepik</a>. Лицензия <a
                                     href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0"
-                                    target="_blank">CC
-                                    3.0 BY</a>.
+                                    target="_blank">CC 3.0 BY</a>.
                                 </UI.ListItem>
                                 <UI.ListItem multiline>
-                                    Звуки – <a href="http://www.freesfx.co.uk/" title="freesfx.co.uk">freesfx.co.uk</a>
+                                    Звуки – <a href="http://www.freesfx.co.uk/" title="freesfx.co.uk">freesfx.co.uk</a>.
                                 </UI.ListItem>
                             </UI.List>
                         </UI.Group>
