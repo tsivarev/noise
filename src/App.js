@@ -194,13 +194,13 @@ class App extends Component {
 
     openCredits() {
         this.setState({activeView: 'creditsView'});
-        VKConnect.send('VKWebAppViewUpdateNavigationState', {canBack: true, canForward: false});
+        VKConnect.send('VKWebAppViewUpdateNavigationState', {"can_back": true, "can_forward": false});
     }
 
     navigationListener(e) {
         e = e.detail;
         if (e['type'] === 'VKWebAppGoBack') {
-            VKConnect.send('VKWebAppViewUpdateNavigationState', {canBack: false, canForward: false});
+            VKConnect.send('VKWebAppViewUpdateNavigationState', {"can_back": false, "can_forward": false});
             this.setState({activeView: 'mainView'});
         }
     }
