@@ -13,6 +13,7 @@ export class SoundEffectView extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.toggle = this.toggle.bind(this);
+        this.enable = this.enable.bind(this);
     }
 
     componentDidMount() {
@@ -34,6 +35,12 @@ export class SoundEffectView extends Component {
         }
     }
 
+    enable() {
+        if (this.props.value === 0) {
+            this.props.onChange(this.props.name, 70);
+        }
+    }
+
     render() {
         if (this.audio) {
             let isPlaying = !this.audio.paused;
@@ -45,7 +52,6 @@ export class SoundEffectView extends Component {
                             // Automatic playback started!
                         }).catch(function (error) {
                             // Automatic playback failed.
-                            // alert(error);
                         });
                     }
                 }
@@ -55,20 +61,23 @@ export class SoundEffectView extends Component {
                 }
             }
 
-            this.audio.volume = this.props.value / this.maxValue;
+            if (this.osName !== UI.IOS) {
+                this.audio.volume = this.props.value / this.maxValue;
+            }
         }
 
-        if (this.osName === UI.IOS) {
+        if (this.osName === UI.IOS || this.props.value === 0) {
             return (
                 <UI.Div onClick={this.toggle}>
                     <UI.Progress
                         value={this.props.value ? 70 : 0}
+                        style={{margin: 12}} //fix for migration from Progress to Slider
                     />
                 </UI.Div>
             );
         } else {
             return (
-            <UI.Div onClick={this.toggle}>
+            <UI.Div onClick={this.enable}>
                 <UI.Slider
                     min={this.minValue}
                     max={this.maxValue}
