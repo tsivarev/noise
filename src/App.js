@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import * as UI from '@vkontakte/vkui';
-import * as VKConnect from '@vkontakte/vkui-connect';
 import '@vkontakte/vkui/dist/vkui.css';
 import Icon24Shuffle from '@vkontakte/icons/dist/24/shuffle';
+import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
+import Icon24Back from '@vkontakte/icons/dist/24/back';
 import './App.css';
-import {IconWind} from "./components/icons/wind/IconWind";
-import {IconBirds} from "./components/icons/birds/IconBirds";
-import {IconRain} from "./components/icons/rain/IconRain";
-import {IconFire} from "./components/icons/fire/IconFire";
-import {SoundEffectView} from "./components/SoundEffectView";
-import {IconWaves} from "./components/icons/waves/IconWaves";
-import {IconLeaves} from "./components/icons/leaves/IconLeaves";
-import {IconLogo} from "./components/icons/logo/IconLogo";
+import {IconWind} from './components/icons/wind/IconWind';
+import {IconBirds} from './components/icons/birds/IconBirds';
+import {IconRain} from './components/icons/rain/IconRain';
+import {IconFire} from './components/icons/fire/IconFire';
+import {SoundEffectView} from './components/SoundEffectView';
+import {IconWaves} from './components/icons/waves/IconWaves';
+import {IconLeaves} from './components/icons/leaves/IconLeaves';
+import {IconLogo} from './components/icons/logo/IconLogo';
 
 class App extends Component {
 
@@ -22,8 +23,6 @@ class App extends Component {
 
         this.shuffle = this.shuffle.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.openCredits = this.openCredits.bind(this);
-        VKConnect.subscribe(this.navigationListener.bind(this));
     }
 
     static getInitState() {
@@ -34,7 +33,7 @@ class App extends Component {
             birds: 0,
             waves: 0,
             leaves: 0,
-            activeView: 'mainView'
+            activePanel: 'mainPanel'
         };
     }
 
@@ -104,10 +103,15 @@ class App extends Component {
     }
 
     render() {
+        const osname = UI.platform();
+
         return (
-            <UI.Root activeView={this.state.activeView}>
-                <UI.View id="mainView" activePanel="mainPanel" header={false}>
+            <UI.Root activeView="mainView">
+                <UI.View id="mainView" activePanel={this.state.activePanel}>
                     <UI.Panel id="mainPanel">
+                        <UI.PanelHeader>
+                            Relax
+                        </UI.PanelHeader>
                         <UI.Group>
                             <UI.Div className="header">
                                 <IconLogo height={150} className="header__logo"/>
@@ -167,22 +171,36 @@ class App extends Component {
                             </UI.List>
                         </UI.Group>
                         <UI.Div className="footer">
-                            <UI.Button type="cell" align="center" onClick={this.openCredits}>О программе</UI.Button>
+                            <UI.Button type="cell" align="center" onClick={this.openCredits.bind(this)}>О
+                                программе</UI.Button>
                         </UI.Div>
                     </UI.Panel>
-                </UI.View>
-                <UI.View id="creditsView" activePanel="creditsPanel">
                     <UI.Panel id="creditsPanel">
-                        <UI.PanelHeader>О программе</UI.PanelHeader>
-                        <UI.Group title="Лицензии">
+                        <UI.PanelHeader
+                            left={<UI.HeaderButton
+                                onClick={this.openMain.bind(this)}>{osname === UI.IOS ?
+                                <Icon28ChevronBack/> : <Icon24Back/>}</UI.HeaderButton>}
+                        >
+                            О программе
+                        </UI.PanelHeader>
+                        <UI.Group title="Исходный код">
+                            <UI.Div>
+                                Исходный код доступен на <UI.Link
+                                href="https://github.com/tsivarev/noise">GitHub</UI.Link>.
+                                <br/>
+                                <br/>
+                                Документация <UI.Link href="https://vk.com/dev/vk_apps_docs">VK Apps платформы</UI.Link>.
+                            </UI.Div>
+                        </UI.Group>
+                        <UI.Group title="Используемые ресурсы">
                             <UI.List>
                                 <UI.ListItem multiline>
-                                    Иконки – <a href="http://www.freepik.com" title="Freepik">Freepik</a>. Лицензия <a
-                                    href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0"
-                                    target="_blank">CC 3.0 BY</a>.
+                                    Иконки – <UI.Link href="https://www.freepik.com">Freepik</UI.Link>.
+                                    Лицензия <UI.Link
+                                    href="https://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</UI.Link>.
                                 </UI.ListItem>
                                 <UI.ListItem multiline>
-                                    Звуки – <a href="http://www.freesfx.co.uk/" title="freesfx.co.uk">freesfx.co.uk</a>.
+                                    Звуки – <UI.Link href="https://www.freesfx.co.uk/">freesfx.co.uk</UI.Link>.
                                 </UI.ListItem>
                             </UI.List>
                         </UI.Group>
@@ -193,16 +211,11 @@ class App extends Component {
     }
 
     openCredits() {
-        this.setState({activeView: 'creditsView'});
-        VKConnect.send('VKWebAppViewUpdateNavigationState', {"can_back": true, "can_forward": false});
+        this.setState({activePanel: 'creditsPanel'});
     }
 
-    navigationListener(e) {
-        e = e.detail;
-        if (e['type'] === 'VKWebAppGoBack') {
-            VKConnect.send('VKWebAppViewUpdateNavigationState', {"can_back": false, "can_forward": false});
-            this.setState({activeView: 'mainView'});
-        }
+    openMain() {
+        this.setState({activePanel: 'mainPanel'});
     }
 }
 
