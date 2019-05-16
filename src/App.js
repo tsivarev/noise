@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import * as UI from '@vkontakte/vkui';
+import { Root, View, Panel, PanelHeader, Button, platform, Div, Group, List, Cell, IOS, Link, colors, HeaderButton } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import Icon24Shuffle from '@vkontakte/icons/dist/24/shuffle';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
@@ -103,110 +103,110 @@ class App extends Component {
     }
 
     render() {
-        const osname = UI.platform();
+        const osname = platform();
 
         return (
-            <UI.Root activeView="mainView">
-                <UI.View id="mainView" activePanel={this.state.activePanel}>
-                    <UI.Panel id="mainPanel">
-                        <UI.PanelHeader>
+            <Root activeView="mainView">
+                <View id="mainView" activePanel={this.state.activePanel}>
+                    <Panel id="mainPanel">
+                        <PanelHeader>
                             Relax
-                        </UI.PanelHeader>
-                        <UI.Group>
-                            <UI.Div className="header">
+                        </PanelHeader>
+                        <Group>
+                            <Div className="header">
                                 <IconLogo height={150} className="header__logo"/>
-                                <UI.Button className="header__shuffle"
+                                <Button className="header__shuffle"
                                            onClick={this.shuffle}
                                            level="1"
                                            before={<Icon24Shuffle/>}
                                            size="l"
-                                >Случайный набор</UI.Button>
-                            </UI.Div>
-                        </UI.Group>
-                        <UI.Group title="Звуки">
-                            <UI.List>
-                                <UI.ListItem
-                                    before={<IconFire color={this.state.fire ? UI.colors.black : UI.colors.lightGray}
+                                >Случайный набор</Button>
+                            </Div>
+                        </Group>
+                        <Group title="Звуки">
+                            <List>
+                                <Cell
+                                    before={<IconFire color={this.state.fire ? colors.black : colors.lightGray}
                                                       size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/fire.mp3'}
                                                      onChange={this.handleChange}
                                                      name="fire" value={this.state.fire}/>
-                                </UI.ListItem>
-                                <UI.ListItem
-                                    before={<IconRain color={this.state.rain ? UI.colors.black : UI.colors.lightGray}
+                                </Cell>
+                                <Cell
+                                    before={<IconRain color={this.state.rain ? colors.black : colors.lightGray}
                                                       size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/rain.mp3'}
                                                      onChange={this.handleChange}
                                                      name="rain" value={this.state.rain}/>
-                                </UI.ListItem>
-                                <UI.ListItem
-                                    before={<IconWind color={this.state.wind ? UI.colors.black : UI.colors.lightGray}
+                                </Cell>
+                                <Cell
+                                    before={<IconWind color={this.state.wind ? colors.black : colors.lightGray}
                                                       size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/wind.mp3'}
                                                      onChange={this.handleChange}
                                                      name="wind" value={this.state.wind}/>
-                                </UI.ListItem>
-                                <UI.ListItem
+                                </Cell>
+                                <Cell
                                     before={<IconLeaves
-                                        color={this.state.leaves ? UI.colors.black : UI.colors.lightGray}
+                                        color={this.state.leaves ? colors.black : colors.lightGray}
                                         size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/leaves.mp3'}
                                                      onChange={this.handleChange}
                                                      name="leaves" value={this.state.leaves}/>
-                                </UI.ListItem>
-                                <UI.ListItem
-                                    before={<IconBirds color={this.state.birds ? UI.colors.black : UI.colors.lightGray}
+                                </Cell>
+                                <Cell
+                                    before={<IconBirds color={this.state.birds ? colors.black : colors.lightGray}
                                                        size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/birds.mp3'}
                                                      onChange={this.handleChange}
                                                      name="birds" value={this.state.birds}/>
-                                </UI.ListItem>
-                                <UI.ListItem
-                                    before={<IconWaves color={this.state.waves ? UI.colors.black : UI.colors.lightGray}
+                                </Cell>
+                                <Cell
+                                    before={<IconWaves color={this.state.waves ? colors.black : colors.lightGray}
                                                        size={32}/>}>
                                     <SoundEffectView url={process.env.PUBLIC_URL + '/samples/waves.mp3'}
                                                      onChange={this.handleChange}
                                                      name="waves" value={this.state.waves}/>
-                                </UI.ListItem>
-                            </UI.List>
-                        </UI.Group>
-                        <UI.Div className="footer">
-                            <UI.Button type="cell" align="center" onClick={this.openCredits.bind(this)}>О
-                                программе</UI.Button>
-                        </UI.Div>
-                    </UI.Panel>
-                    <UI.Panel id="creditsPanel">
-                        <UI.PanelHeader
-                            left={<UI.HeaderButton
-                                onClick={this.openMain.bind(this)}>{osname === UI.IOS ?
-                                <Icon28ChevronBack/> : <Icon24Back/>}</UI.HeaderButton>}
+                                </Cell>
+                            </List>
+                        </Group>
+                        <Div className="footer">
+                            <Button type="cell" align="center" onClick={this.openCredits.bind(this)}>О
+                                программе</Button>
+                        </Div>
+                    </Panel>
+                    <Panel id="creditsPanel">
+                        <PanelHeader
+                            left={<HeaderButton
+                                onClick={this.openMain.bind(this)}>{osname === IOS ?
+                                <Icon28ChevronBack/> : <Icon24Back/>}</HeaderButton>}
                         >
                             О программе
-                        </UI.PanelHeader>
-                        <UI.Group title="Исходный код">
-                            <UI.Div>
-                                Исходный код доступен на <UI.Link
-                                href="https://github.com/tsivarev/noise">GitHub</UI.Link>.
+                        </PanelHeader>
+                        <Group title="Исходный код">
+                            <Div>
+                                Исходный код доступен на <Link
+                                href="https://github.com/tsivarev/noise">GitHub</Link>.
                                 <br/>
                                 <br/>
-                                Документация <UI.Link href="https://vk.com/dev/vk_apps_docs">VK Apps платформы</UI.Link>.
-                            </UI.Div>
-                        </UI.Group>
-                        <UI.Group title="Используемые ресурсы">
-                            <UI.List>
-                                <UI.ListItem multiline>
-                                    Иконки – <UI.Link href="https://www.freepik.com">Freepik</UI.Link>.
-                                    Лицензия <UI.Link
-                                    href="https://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</UI.Link>.
-                                </UI.ListItem>
-                                <UI.ListItem multiline>
-                                    Звуки – <UI.Link href="https://www.freesfx.co.uk/">freesfx.co.uk</UI.Link>.
-                                </UI.ListItem>
-                            </UI.List>
-                        </UI.Group>
-                    </UI.Panel>
-                </UI.View>
-            </UI.Root>
+                                Документация <Link href="https://vk.com/dev/vk_apps_docs">VK Apps платформы</Link>.
+                            </Div>
+                        </Group>
+                        <Group title="Используемые ресурсы">
+                            <List>
+                                <Cell multiline>
+                                    Иконки – <Link href="https://www.freepik.com">Freepik</Link>.
+                                    Лицензия <Link
+                                    href="https://creativecommons.org/licenses/by/3.0/">CC 3.0 BY</Link>.
+                                </Cell>
+                                <Cell multiline>
+                                    Звуки – <Link href="https://www.freesfx.co.uk/">freesfx.co.uk</Link>.
+                                </Cell>
+                            </List>
+                        </Group>
+                    </Panel>
+                </View>
+            </Root>
         );
     }
 
