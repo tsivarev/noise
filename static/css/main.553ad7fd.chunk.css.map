@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,sBAGE,YAAa,CACb,YACF,CAEA,+CANE,YAAa,CACb,WAQF","file":"main.553ad7fd.chunk.css","sourcesContent":[".header .header__logo {\n  display: flex;\n  margin: auto;\n  padding: 10px;\n  height: 150px;\n}\n\n.header .header__shuffle {\n  display: flex;\n  margin: auto;\n}"]}
