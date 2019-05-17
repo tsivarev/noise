@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import * as UI from '@vkontakte/vkui';
+import { Div, Slider, platform, IOS, Progress } from '@vkontakte/vkui';
 
 export class SoundEffectView extends Component {
 
     constructor(props) {
         super(props);
 
-        this.osName = UI.platform();
+        this.osName = platform();
 
         this.maxValue = 100;
         this.minValue = 0;
@@ -61,30 +61,30 @@ export class SoundEffectView extends Component {
                 }
             }
 
-            if (this.osName !== UI.IOS) {
+            if (this.osName !== IOS) {
                 this.audio.volume = this.props.value / this.maxValue;
             }
         }
 
-        if (this.osName === UI.IOS || this.props.value === 0) {
+        if (this.osName === IOS || this.props.value === 0) {
             return (
-                <UI.Div onClick={this.toggle}>
-                    <UI.Progress
+                <Div onClick={this.toggle}>
+                    <Progress
                         value={this.props.value ? 70 : 0}
                         style={{margin: 12}} //fix for migration from Progress to Slider
                     />
-                </UI.Div>
+                </Div>
             );
         } else {
             return (
-            <UI.Div onClick={this.enable}>
-                <UI.Slider
+            <Div onClick={this.enable}>
+                <Slider
                     min={this.minValue}
                     max={this.maxValue}
                     value={Number(this.props.value)}
                     onChange={this.onChange}
                 />
-            </UI.Div>
+            </Div>
             );
         }
     }
