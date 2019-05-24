@@ -1,91 +1,78 @@
-import React, {Component} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { Div, Slider, platform, IOS, Progress } from '@vkontakte/vkui';
 
-export class SoundEffectView extends Component {
+const SoundEffectView = props => {
+    const osName = platform();
+    const maxValue = 100;
+    const minValue = 0;
+    const audio = useRef();
 
-    constructor(props) {
-        super(props);
-
-        this.osName = platform();
-
-        this.maxValue = 100;
-        this.minValue = 0;
-
-        this.onChange = this.onChange.bind(this);
-        this.toggle = this.toggle.bind(this);
-        this.enable = this.enable.bind(this);
-    }
-
-    componentDidMount() {
-        this.audio = new Audio(this.props.url);
-        this.audio.addEventListener('ended', function () {
+    useEffect(() => {
+        audio.current = new Audio(props.url);
+        audio.current.addEventListener('ended', function () {
             this.play();
         }, false);
+    }, [])
+
+    const onChange = value => {
+        props.onChange(props.name, value);
     }
 
-    onChange(value) {
-        this.props.onChange(this.props.name, value);
+    const toggle = () => {
+        props.onChange(props.name, props.value > 0 ? 0 : 70);
     }
 
-    toggle() {
-        if (this.props.value > 0) {
-            this.props.onChange(this.props.name, 0);
-        } else {
-            this.props.onChange(this.props.name, 70);
+    const enable = () => {
+        if (props.value === 0) {
+            props.onChange(props.name, 70);
         }
     }
 
-    enable() {
-        if (this.props.value === 0) {
-            this.props.onChange(this.props.name, 70);
-        }
-    }
-
-    render() {
-        if (this.audio) {
-            let isPlaying = !this.audio.paused;
-            if (this.props.value > this.minValue) {
-                if (!isPlaying) {
-                    let playPromise = this.audio.play();
-                    if (playPromise !== undefined) {
-                        playPromise.then(function () {
-                            // Automatic playback started!
-                        }).catch(function (error) {
-                            // Automatic playback failed.
-                        });
-                    }
-                }
-            } else {
-                if (isPlaying) {
-                    this.audio.pause();
+    if (audio.current) {
+        let isPlaying = !audio.current.paused;
+        if (props.value > minValue) {
+            if (!isPlaying) {
+                let playPromise = audio.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(function () {
+                        // Automatic playback started!
+                    }).catch(function (error) {
+                        // Automatic playback failed.
+                    });
                 }
             }
-
-            if (this.osName !== IOS) {
-                this.audio.volume = this.props.value / this.maxValue;
+        } else {
+            if (isPlaying) {
+                audio.current.pause();
             }
         }
 
-        if (this.osName === IOS || this.props.value === 0) {
-            return (
-                <Div onClick={this.toggle}>
-                    <Progress
-                        value={this.props.value ? 70 : 0}
-                        style={{margin: 12}} //fix for migration from Progress to Slider
-                    />
-                </Div>
-            );
-        } else {
-            return (
-            <Div onClick={this.enable}>
-                <Slider
-                    min={this.minValue}
-                    max={this.maxValue}
-                    value={Number(this.props.value)}
-                    onChange={this.onChange}
+        if (osName !== IOS) {
+            audio.current.volume = props.value / maxValue;
+        }
+    }
+
+    if (osName === IOS || props.value === 0) {
+        return (
+            <Div onClick={toggle}>
+                <Progress
+                    value={props.value ? 70 : 0}
+                    style={{margin: 12}} //fix for migration from Progress to Slider
                 />
             </Div>
-            );
-        }
+        );
+    } else {
+        return (
+        <Div onClick={enable}>
+            <Slider
+                min={minValue}
+                max={maxValue}
+                value={Number(props.value)}
+                onChange={onChange}
+            />
+        </Div>
+        );
     }
 }
+
+export default SoundEffectView

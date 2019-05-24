@@ -7,9 +7,9 @@
     "@vkontakte/icons": "^1.4.3",
     "@vkontakte/vkui": "^2.21.3",
     "@vkontakte/vkui-connect": "^1.1.3",
-    "gh-pages": "^1.2.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "gh-pages": "^2.0.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
   "scripts": {
