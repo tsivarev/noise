@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
 import logo from './logo.svg';
 
-export class IconLogo extends Component {
+const IconLogo = ({height, className}) => (
+    <img height={height} className={className} src={logo} alt="logo"/>
+);
 
-    render() {
-        return (
-            <img height={this.props.height} className={this.props.className} src={logo} alt="logo"/>);
-    }
-}
+export default IconLogo
